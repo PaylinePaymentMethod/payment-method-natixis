@@ -137,7 +137,11 @@ public class PluginUtils {
     }
 
     private static String extract(String s, int i) {
-        return s.split(SEPARATOR)[i];
+        try {
+            return s.split(SEPARATOR)[i];
+        }catch (ArrayIndexOutOfBoundsException e){
+            return null;
+        }
     }
 
     public static String extractBanks(String s) {

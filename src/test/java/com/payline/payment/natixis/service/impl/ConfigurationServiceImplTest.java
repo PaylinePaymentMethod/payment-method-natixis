@@ -8,6 +8,7 @@ import com.payline.payment.natixis.utils.Constants;
 import com.payline.payment.natixis.utils.PluginUtils;
 import com.payline.payment.natixis.utils.http.NatixisHttpClient;
 import com.payline.payment.natixis.utils.properties.ReleaseProperties;
+import com.payline.payment.natixis.utils.security.RSAUtils;
 import com.payline.pmapi.bean.configuration.PartnerConfiguration;
 import com.payline.pmapi.bean.configuration.ReleaseInformation;
 import com.payline.pmapi.bean.configuration.parameter.AbstractParameter;
@@ -41,6 +42,9 @@ class ConfigurationServiceImplTest {
     private NatixisHttpClient natixisHttpClient;
     @Mock
     private ReleaseProperties releaseProperties;
+
+    @Mock
+    private RSAUtils rsaUtils;
 
     @InjectMocks
     private ConfigurationServiceImpl service;
@@ -171,7 +175,49 @@ class ConfigurationServiceImplTest {
     }
 
     @Test
-    void retrievePluginConfiguration_nominal() {
+    void retrievePluginConfiguration_empty() {
+        // given: the HTTP client returns a proper response
+        String banks = PluginUtils.extractBanks( MockUtils.aPluginConfiguration());
+        doReturn(NatixisBanksResponse.fromJson(banks)).when(natixisHttpClient).banks(any(RequestConfiguration.class));
+
+        // given: rsaUtils generate a proper key
+        doReturn("foo").when(rsaUtils).generateKey();
+
+        RetrievePluginConfigurationRequest request = MockUtils.aRetrievePluginConfigurationRequestBuilder()
+                .withPluginConfiguration("")
+                .build();
+
+        // when: calling the method retrievePluginConfiguration
+        String result = service.retrievePluginConfiguration(request);
+
+        // then: the returned value contains the banks as a JSON string
+        String expected = banks + "&&&foo";
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void retrievePluginConfiguration_noKey() {
+        // given: the HTTP client returns a proper response
+        String banks = PluginUtils.extractBanks( MockUtils.aPluginConfiguration());
+        doReturn(NatixisBanksResponse.fromJson(banks)).when(natixisHttpClient).banks(any(RequestConfiguration.class));
+
+        // given: rsaUtils generate a proper key
+        doReturn("foo").when(rsaUtils).generateKey();
+
+        RetrievePluginConfigurationRequest request = MockUtils.aRetrievePluginConfigurationRequestBuilder()
+                .withPluginConfiguration("initial configuration&&&")
+                .build();
+
+        // when: calling the method retrievePluginConfiguration
+        String result = service.retrievePluginConfiguration(request);
+
+        // then: the returned value contains the banks as a JSON string
+        String expected = banks + "&&&foo";
+        assertEquals(expected, result);
+    }
+
+    @Test
+    void retrievePluginConfiguration_newBanks() {
         // given: the HTTP client returns a proper response
         String banks = PluginUtils.extractBanks( MockUtils.aPluginConfiguration());
         doReturn(NatixisBanksResponse.fromJson(banks)).when(natixisHttpClient).banks(any(RequestConfiguration.class));
