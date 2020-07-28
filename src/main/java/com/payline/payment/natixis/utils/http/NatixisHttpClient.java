@@ -57,7 +57,7 @@ public class NatixisHttpClient {
     private static final Logger LOGGER = LogManager.getLogger(NatixisHttpClient.class);
 
     private static final String API_AUTH_PATH_OAUTH_TOKEN = "/oauth/token";
-    private static final String API_PAYMENT_PATH_BANK_LIST = "/accountServiceProviders";
+    private static final String API_PAYMENT_PATH_BANK_LIST = "/account-servicing-payment-service-providers";
     private static final String API_PAYMENT_PATH_INIT = "/payment-requests";
     private static final String API_PAYMENT_PATH_STATUS_TOKEN = "{paymentRequestResourceId}";
     private static final String API_PAYMENT_PATH_STATUS = "/payment-requests/" + API_PAYMENT_PATH_STATUS_TOKEN;
