@@ -429,7 +429,7 @@ public class NatixisHttpClient {
 
         while( strResponse == null && attempts <= this.retries ){
             if( LOGGER.isDebugEnabled() ){
-                LOGGER.debug( "Start call to partner API (attempt {}) :" + System.lineSeparator() + PluginUtils.requestToString( httpRequest ), attempts );
+                LOGGER.debug( "Start call to partner API (attempt {}) :{}", attempts, System.lineSeparator() + PluginUtils.requestToString( httpRequest ) );
             } else {
                 LOGGER.info( "Start call to partner API [{} {}] (attempt {})", httpRequest.getMethod(), httpRequest.getURI(), attempts );
             }

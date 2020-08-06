@@ -36,8 +36,8 @@ public class PaymentFormConfigurationServiceImpl extends LogoPaymentFormConfigur
                 throw new InvalidDataException("Plugin configuration must not be null");
             }
             final List<SelectOption> banks = new ArrayList<>();
-            String BankList = PluginUtils.extractBanks(paymentFormConfigurationRequest.getPluginConfiguration());
-            for (Bank bank : NatixisBanksResponse.fromJson(BankList).getList()) {
+            String bankList = PluginUtils.extractBanks(paymentFormConfigurationRequest.getPluginConfiguration());
+            for (Bank bank : NatixisBanksResponse.fromJson(bankList).getList()) {
                 banks.add(SelectOption.SelectOptionBuilder.aSelectOption().withKey(bank.getBic()).withValue(bank.getName()).build());
             }
 

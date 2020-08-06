@@ -7,7 +7,6 @@ import com.payline.payment.natixis.bean.business.payment.*;
 import com.payline.payment.natixis.bean.configuration.RequestConfiguration;
 import com.payline.payment.natixis.exception.InvalidDataException;
 import com.payline.payment.natixis.exception.PluginException;
-import com.payline.payment.natixis.service.impl.PaymentServiceImpl;
 import com.payline.payment.natixis.utils.Constants;
 import com.payline.payment.natixis.utils.PluginUtils;
 import com.payline.payment.natixis.utils.http.NatixisHttpClient;
@@ -27,7 +26,7 @@ import java.text.NumberFormat;
 import java.util.*;
 
 public class GenericPaymentService {
-    private static final Logger LOGGER = LogManager.getLogger(PaymentServiceImpl.class);
+    private static final Logger LOGGER = LogManager.getLogger(GenericPaymentService.class);
     private ConfigProperties config = ConfigProperties.getInstance();
     private NatixisHttpClient natixisHttpClient = NatixisHttpClient.getInstance();
 

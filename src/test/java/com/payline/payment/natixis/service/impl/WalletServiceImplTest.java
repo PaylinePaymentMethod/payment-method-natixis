@@ -118,8 +118,8 @@ class WalletServiceImplTest {
 
         Assertions.assertEquals(WalletCreateResponseFailure.class, response.getClass());
         WalletCreateResponseFailure responseFailure = (WalletCreateResponseFailure) response;
-        Assertions.assertEquals(FailureCause.INTERNAL_ERROR, responseFailure.getFailureCause());
-        Assertions.assertEquals("plugin error: ArrayIndexOutOfBoundsException: 1", responseFailure.getErrorCode());
+        Assertions.assertEquals(FailureCause.INVALID_DATA, responseFailure.getFailureCause());
+        Assertions.assertEquals("No key in pluginConfiguration", responseFailure.getErrorCode());
     }
 
     @Test

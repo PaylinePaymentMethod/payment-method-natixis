@@ -268,12 +268,11 @@ public class ConfigurationServiceImpl implements ConfigurationService {
             // Retrieve account service providers list
             NatixisBanksResponse banks = natixisHttpClient.banks(requestConfiguration);
 
-            // get oldKey or generate first key
-            String key;
-            if (PluginUtils.isEmpty(retrievePluginConfigurationRequest.getPluginConfiguration())) {
+
+            // if not present, generate a new key
+            String key = PluginUtils.extractKey(retrievePluginConfigurationRequest.getPluginConfiguration());
+            if (PluginUtils.isEmpty(key)){
                 key = rsaUtils.generateKey();
-            } else {
-                key = PluginUtils.extractKey(retrievePluginConfigurationRequest.getPluginConfiguration());
             }
 
             return banks.toString() + PluginUtils.SEPARATOR + key;

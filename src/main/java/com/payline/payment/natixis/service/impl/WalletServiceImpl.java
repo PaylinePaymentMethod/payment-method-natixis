@@ -1,5 +1,6 @@
 package com.payline.payment.natixis.service.impl;
 
+import com.payline.payment.natixis.exception.InvalidDataException;
 import com.payline.payment.natixis.exception.PluginException;
 import com.payline.payment.natixis.utils.PluginUtils;
 import com.payline.payment.natixis.utils.security.RSAUtils;
@@ -48,7 +49,10 @@ public class WalletServiceImpl implements WalletService {
             String bic = walletCreateRequest.getPaymentFormContext().getPaymentFormParameter().get(BankTransferForm.BANK_KEY);
 
             // encrypt it
-            String key = PluginUtils.extractKey(walletCreateRequest.getPluginConfiguration()).trim();
+            String key = PluginUtils.extractKey(walletCreateRequest.getPluginConfiguration());
+            if (key == null){
+                throw new InvalidDataException("No key in pluginConfiguration");
+            }
             String paymentData = rsaUtils.encrypt(bic, key);
 
             // create wallet
